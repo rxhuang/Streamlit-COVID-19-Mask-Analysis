@@ -3,7 +3,6 @@ import numpy as np
 import pandas as pd
 import datetime
 import altair as alt
-from vega_datasets import data
 import copy
 
 @st.cache(persist=True)
@@ -57,7 +56,7 @@ ids = [2,1,5,4,6,8,9,11,10,12,13,15,19,16,17,18,20,21,22,25,24,23,26,27,29,28,30
        36,39,40,41,42,44,45,46,47,48,49,51,50,53,55,54,56] 
 map_data['id'] = ids
 
-states = alt.topo_feature(data.us_10m.url, 'states')
+states = alt.topo_feature('states.json', 'states')
 source = data.population_engineers_hurricanes.url
 variable_list = ['mask_percentage','sympton_percentage']
 
