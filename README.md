@@ -1,6 +1,6 @@
 # CMU Interactive Data Science Final Project
 
-* **Online URL**: TODO
+* **Online URL**: 
 * **Team members**:
   * Contact person: Tianyang Zhan tzhan@andrew.cmu.edu
   * Ruoxin Huang ruoxinh@andrew.cmu.edu
