@@ -57,7 +57,6 @@ ids = [2,1,5,4,6,8,9,11,10,12,13,15,19,16,17,18,20,21,22,25,24,23,26,27,29,28,30
 map_data['id'] = ids
 
 states = alt.topo_feature('states.json', 'states')
-source = data.population_engineers_hurricanes.url
 variable_list = ['mask_percentage','sympton_percentage']
 
 chart = alt.Chart(states).mark_geoshape().encode(
