@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 import datetime
 import altair as alt
+from vega_datasets import data
 import copy
 
 @st.cache(persist=True)
@@ -48,3 +49,32 @@ scatter_chart = alt.Chart(fb_selected).mark_circle().encode(
     y=alt.Y('sympton_percentage', scale=alt.Scale(zero=False), axis=alt.Axis(title='percentage of having covid symptons'))
 )
 scatter_chart + scatter_chart.transform_regression('mask_percentage', 'sympton_percentage').mark_line()
+
+
+
+map_data = fb_all[fb_all['time_value']==pd.to_datetime(date_range[1])].copy()
+ids = [2,1,5,4,6,8,9,11,10,12,13,15,19,16,17,18,20,21,22,25,24,23,26,27,29,28,30,37,38,31,33,34,35,32,
+       36,39,40,41,42,44,45,46,47,48,49,51,50,53,55,54,56] 
+map_data['id'] = ids
+
+states = alt.topo_feature(data.us_10m.url, 'states')
+source = data.population_engineers_hurricanes.url
+variable_list = ['mask_percentage','sympton_percentage']
+
+chart = alt.Chart(states).mark_geoshape().encode(
+    alt.Color(alt.repeat('row'), type='quantitative')
+).transform_lookup(
+    lookup='id',
+    from_=alt.LookupData(map_data, 'id', variable_list)
+).properties(
+    width=500,
+    height=300
+).project(
+    type='albersUsa'
+).repeat(
+    row=variable_list
+).resolve_scale(
+    color='independent'
+)
+
+st.write(chart)
