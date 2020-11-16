@@ -4,7 +4,6 @@ import pandas as pd
 import datetime
 import altair as alt
 import copy
-from sklearn import linear_model
 
 @st.cache(persist=True)
 
