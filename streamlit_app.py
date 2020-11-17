@@ -24,6 +24,7 @@ fb_sympton.rename(columns={'value':'sympton_percentage'}, inplace=True)
 
 fb_all=fb_mask.merge(fb_sympton, on=['time_value','geo_value'])
 fb_all=fb_all[['geo_value','time_value','mask_percentage','sympton_percentage']]
+fb_all = fb_all[fb_all['time_value']>'2020-09-08']
 
 states=fb_all.geo_value.str.upper().unique()
 
