@@ -8,13 +8,15 @@ from tensorflow.keras.preprocessing.image import img_to_array
 from tensorflow.keras.models import load_model
 
 
-FACE_MODEL_PATH = "./model/face_detector.caffemodel"
-FACE_PROTO_PATH = "./model/deploy.prototxt"
-MASK_MODEL_PATH =  "./model/mask_detector.model"
-IMG_RESIZE = 300
+
 
 
 def mask_detection(image, conf=0.5):
+
+    FACE_MODEL_PATH = "./model/face_detector.caffemodel"
+    FACE_PROTO_PATH = "./model/deploy.prototxt"
+    MASK_MODEL_PATH =  "./model/mask_detector.model"
+    IMG_RESIZE = 300
 
     # record output values
     faces = []
