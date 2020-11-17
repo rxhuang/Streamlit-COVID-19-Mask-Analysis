@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 import datetime
 import altair as alt
+from vega_datasets import data
 import copy
 
 @st.cache(persist=True)
@@ -51,12 +52,12 @@ scatter_chart + scatter_chart.transform_regression('mask_percentage', 'sympton_p
 
 
 
-map_data = fb_all[fb_all['time_value']=='2020-11-13'].copy()
+map_data = fb_all[fb_all['time_value']==pd.to_datetime(date_range[1])].copy()
 ids = [2,1,5,4,6,8,9,11,10,12,13,15,19,16,17,18,20,21,22,25,24,23,26,27,29,28,30,37,38,31,33,34,35,32,
        36,39,40,41,42,44,45,46,47,48,49,51,50,53,55,54,56] 
 map_data['id'] = ids
 
-states = alt.topo_feature('states.json', 'states')
+states = alt.topo_feature(data.us_10m.url, 'states')
 variable_list = ['mask_percentage','sympton_percentage']
 
 chart = alt.Chart(states).mark_geoshape().encode(
