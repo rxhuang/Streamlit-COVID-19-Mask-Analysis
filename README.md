@@ -16,8 +16,7 @@ Update towards the end of the project.
 
 ### Proposal
 
-- [ ] The URL at the top of this readme needs to point to your application online. It should also list the names of the team members.
-- [ ] A completed proposal. The contact should submit it as a PDF on Canvas.
+https://docs.google.com/document/d/1TqYg-uk4ryZCuW5axk1SdqnfntXukpZItl3BxQD2i6s/edit?usp=sharing
 
 ### Design review
 
@@ -37,8 +36,8 @@ Face: https://github.com/opencv/opencv/tree/master/samples/dnn/face_detector
 Mask:https://github.com/ikigai-aa/Face-Mask-Detector-using-MobileNetV2
 Completed the pipeline for face mask detection and input collection for the statistical evaluation model
 * Next Step:
-Design and complete the statistical model for safety-level scoring
-Try to train our own CV models and explore different datasets. In particular, explore non-artificial mask datasets like https://github.com/X-zhangyang/Real-World-Masked-Face-Dataset
+- Design and complete the statistical model for safety-level scoring
+- Try to train our own CV models and explore different datasets. In particular, explore non-artificial mask datasets like https://github.com/X-zhangyang/Real-World-Masked-Face-Dataset
 * Questions:
 Can we use the downloaded pre-trained models or do we need to reproduce the code and train our own models?
 Is this level of interaction sufficient?
