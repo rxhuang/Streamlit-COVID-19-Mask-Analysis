@@ -173,8 +173,7 @@ def process_mask_image():
     opencv_image = None
     if not try_sample and upload_image is not None:
         # convert the file to an opencv image.
-        file_bytes = np.asarray(bytearray(upload_image.read()), dtype=np.uint8)
-        opencv_image = cv2.imdecode(file_bytes, 1)
+        opencv_image = cv2.cvtColor(np.array(Image.open(upload_image)), cv2.COLOR_BGR2RGB)
     elif try_sample:
         # use selected sample
         opencv_image = cv2.imread(os.path.join(IMAGE_PATH, select_image))
