@@ -181,22 +181,96 @@ def process_mask_image():
         st.write("Select or Upload an Image to Begin")
 
     results = []
+    result_img = None
     if show_mask_result and opencv_image is not None:
         result_img, results = mask_detection(opencv_image, conf)
         st.image(result_img, channels="BGR", caption='face mask detection result', use_column_width=True)
     elif opencv_image is not None:
-        saved_image = st.image(opencv_image, channels="BGR", caption='selected image', use_column_width=True)
-    return results
+        result_img = st.image(opencv_image, channels="BGR", caption='selected image', use_column_width=True)
+    return results, result_img
+
+def calculate_distance(results, image):
+    # reference object
+    avg_face_width = 14.8
+
+    if len(results) > 1:
+        min_dist = {}
+        for i in range(len(results)):
+            cX = (results[i]["cord"][0] + results[i]["cord"][2]) // 2
+            cY = (results[i]["cord"][1] + results[i]["cord"][3]) // 2
+
+            D = results[i]["cord"][3] - results[i]["cord"][1]
+            refObj = (results[i], (cX, cY), D / avg_face_width)
+            for j in range(len(results)):
+                if i != j:
+                    cX_2 = (results[j]["cord"][0] + results[j]["cord"][2]) // 2
+                    cY_2 = (results[j]["cord"][1] + results[j]["cord"][3]) // 2
+
+                    D_2 = np.linalg.norm(np.array(refObj[1]) - np.array((cX_2, cY_2))) / refObj[2]
+
+                    if i not in min_dist or j not in min_dist or min_dist[i][0] > D_2:
+                        min_dist[i] = (D_2, (cX, cY), (cX_2, cY_2), (i, j))
+                        min_dist[j] = (D_2, (cX, cY), (cX_2, cY_2), (i, j))
+        
+        orig = image.copy()
+        drawn = set()
+        count = 0
+        distance_drawn = []
+        total_score = 0
+        for key in min_dist:
+            dist = min_dist[key]
+            i, j = dist[3]
+            if i not in drawn or j not in drawn:
+                drawn.add(i)
+                drawn.add(j)
+
+                color = (0, 255, 0)
+                scale = 1
+                if results[i]["prob"] < 0 and results[j]["prob"] < 0:
+                    color = (0, 0, 255)
+                    scale = 3
+                elif results[i]["prob"] < 0 or results[j]["prob"] < 0:
+                    color = (0, 165, 255)
+                    scale = 2
+                else:
+                    color = (0, 255, 0)
+                    scale = 1
+                
+                total_score += (scale / dist[0])
+                distance_drawn.append(dist[0])
+                count += 1
+
+                cv2.line(orig, dist[1], dist[2], color, 2)
+                mX = (dist[1][0] + dist[2][0]) // 2
+                mY = (dist[1][1] + dist[2][1]) // 2
+                font_scale = 0.6
+                cv2.putText(orig, "{:.1f} cm".format(dist[0]), (int(mX), int(mY - 20)),
+                cv2.FONT_HERSHEY_SIMPLEX, font_scale, color, 2)
+                cv2.putText(orig, "{:.1f} ft".format(dist[0]/30.48), (int(mX), int(mY + 20)),
+                cv2.FONT_HERSHEY_SIMPLEX, font_scale, color, 2)
+        
+        st.image(orig, channels="BGR", caption="distance between " + str(len(results)) + " persons", use_column_width=True)
+        average_density = total_score / count
+        average_distance = np.average(distance_drawn)
+        st.write("The average distance between people is {:.1f} cm, roughly {:.1f} ft".format(average_distance, average_distance/30.48))
+        if average_density > 3 / 182.88:
+            st.write("The safety score is {:.4f}, chance of contracting COVID high".format(average_density*100))
+        elif average_density > 2 / 182.88:
+            st.write("The safety score is {:.4f}, chance of contracting COVID average".format(average_density*100))
+        else:
+            st.write("The safety score is {:.4f}, chance of contracting COVID low".format(average_density*100))
+    else:
+        st.write("Only 1 person in the image, chance of contracting COVID low")
 
 # TODO: IMPLEMENT SCORING MODEL
-def calculate_score(results):
+def calculate_score(results, result_img):
     show_eval = st.sidebar.checkbox('Show Safety Level Evaluation')
     if show_eval:
         st.title("Safety Level Evaluation")
-        st.write(results)
-
+        # st.write(results)
+        calculate_distance(results, result_img)
 
 if __name__ == '__main__':
     show_visualization()
-    results = process_mask_image()
-    calculate_score(results)
+    results, result_img = process_mask_image()
+    calculate_score(results, result_img)
