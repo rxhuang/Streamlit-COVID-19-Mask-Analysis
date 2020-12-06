@@ -191,7 +191,7 @@ def process_mask_image():
 
 def calculate_distance(results, image):
     # reference object
-    avg_face_width = 14.8
+    avg_face_width = 20
 
     if len(results) > 1:
         min_dist = {}
@@ -209,8 +209,23 @@ def calculate_distance(results, image):
                     D_2 = np.linalg.norm(np.array(refObj[1]) - np.array((cX_2, cY_2))) / refObj[2]
 
                     if i not in min_dist or j not in min_dist or min_dist[i][0] > D_2:
-                        min_dist[i] = (D_2, (cX, cY), (cX_2, cY_2), (i, j))
-                        min_dist[j] = (D_2, (cX, cY), (cX_2, cY_2), (i, j))
+                        new_distance = D_2
+                        min_dist[i] = (new_distance, (cX, cY), (cX_2, cY_2), (i, j))
+                        min_dist[j] = (new_distance, (cX, cY), (cX_2, cY_2), (i, j))
+        
+        visited = set()
+        for key in min_dist:
+            if key not in visited:
+                dist = min_dist[key]
+                distance, (cX, cY), (cX_2, cY_2), (i, j) = dist
+                D = results[j]["cord"][3] - results[j]["cord"][1]
+                ratio = D / avg_face_width
+                D_2 = np.linalg.norm(np.array((cX_2, cY_2)) - np.array((cX, cY))) / ratio
+                new_distance = (D_2 + distance) / 2
+                min_dist[i] = (new_distance, (cX, cY), (cX_2, cY_2), (i, j))
+                min_dist[j] = (new_distance, (cX, cY), (cX_2, cY_2), (i, j))
+                visited.add(i)
+                visited.add(j)
         
         orig = image.copy()
         drawn = set()
@@ -253,9 +268,9 @@ def calculate_distance(results, image):
         average_density = total_score / count
         average_distance = np.average(distance_drawn)
         st.write("The average distance between people is {:.1f} cm, roughly {:.1f} ft".format(average_distance, average_distance/30.48))
-        if average_density > 3 / 182.88:
+        if average_density > 12 / 182.88:
             st.write("The safety score is {:.4f}, chance of contracting COVID high".format(average_density*100))
-        elif average_density > 2 / 182.88:
+        elif average_density > 8 / 182.88:
             st.write("The safety score is {:.4f}, chance of contracting COVID average".format(average_density*100))
         else:
             st.write("The safety score is {:.4f}, chance of contracting COVID low".format(average_density*100))
