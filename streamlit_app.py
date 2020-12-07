@@ -75,7 +75,7 @@ def show_visualization():
     map_data['id'] = ids
 
     states = alt.topo_feature(data.us_10m.url, 'states')
-    variable_list = ['unmasked_percentage','sympton_percentage']
+    variable_list = ['masked_percentage','sympton_percentage']
 
     chart = alt.Chart(states).mark_geoshape().encode(
         alt.Color(alt.repeat('row'), type='quantitative')
