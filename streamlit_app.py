@@ -105,10 +105,14 @@ def mask_detection(image, conf=0.5):
     net.setInput(cv2.dnn.blobFromImage(image, size=(IMG_RESIZE, IMG_RESIZE)))
 
     detections = net.forward()
+
+    cur, low, high = 0, 0, 0
     for i in range(detections.shape[2]):
 
         # filter out non-faces
         if detections[0, 0, i, 2] > conf:
+
+            cur += 1
 
             # compute face bounding box
             x1, y1, x2, y2 = detections[0, 0, i, 3:7]
@@ -140,7 +144,12 @@ def mask_detection(image, conf=0.5):
             cv2.putText(image, text, text_location, font, font_scale, color, thickness)
             cv2.rectangle(image, (x1, y1), (x2, y2), color, 2)
 
-    return image, faces
+        if detections[0, 0, i, 2] > 0.25:
+            low += 1
+        if detections[0, 0, i, 2] > 0.75:
+            high += 1
+
+    return image, faces, (cur, low, high)
 
 def process_mask_image():
     
@@ -183,8 +192,12 @@ def process_mask_image():
     results = []
     result_img = None
     if show_mask_result and opencv_image is not None:
-        result_img, results = mask_detection(opencv_image, conf)
+        result_img, results, face_counts = mask_detection(opencv_image, conf)
         st.image(result_img, channels="BGR", caption='face mask detection result', use_column_width=True)
+        st.write("Detected **%d** faces with current threshold **%.2f**"%(face_counts[0], conf))
+        if face_counts[0] != face_counts[1] or face_counts[0] != face_counts[2]:
+            st.write("*You can modify the threshold to tune detection results:*")
+            st.write("**%d** faces with threshold **%.2f**; **%d** faces with threshold **%.2f**"%(face_counts[1], 0.25, face_counts[2], 0.75))
     elif opencv_image is not None:
         result_img = st.image(opencv_image, channels="BGR", caption='selected image', use_column_width=True)
     return results, result_img
@@ -269,13 +282,15 @@ def calculate_distance(results, image):
         average_distance = np.average(distance_drawn)
         st.write("The average distance between people is {:.1f} cm, roughly {:.1f} ft".format(average_distance, average_distance/30.48))
         if average_density > 12 / 182.88:
-            st.write("The safety score is {:.4f}, chance of contracting COVID high".format(average_density*100))
+            st.write("The safety score is {:.4f}, chance of contracting COVID: **high**".format(average_density*100))
         elif average_density > 8 / 182.88:
-            st.write("The safety score is {:.4f}, chance of contracting COVID average".format(average_density*100))
+            st.write("The safety score is {:.4f}, chance of contracting COVID: **average**".format(average_density*100))
         else:
-            st.write("The safety score is {:.4f}, chance of contracting COVID low".format(average_density*100))
+            st.write("The safety score is {:.4f}, chance of contracting COVID: **low**".format(average_density*100))
+    elif len(results) == 1:
+        st.write("Only 1 person in the image, chance of contracting COVID: **low**")
     else:
-        st.write("Only 1 person in the image, chance of contracting COVID low")
+        st.write("Please run the face detector first")
 
 # TODO: IMPLEMENT SCORING MODEL
 def calculate_score(results, result_img):
