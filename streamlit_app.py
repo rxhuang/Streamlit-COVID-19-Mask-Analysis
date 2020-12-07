@@ -66,8 +66,8 @@ def show_visualization():
 
     scatter_chart.interactive() + scatter_chart.transform_regression('mask percentage(%)', 'symptom percentage(%)').mark_line()
     
-    fb_selected['mask_percentage'] -= 1
-    fb_selected['mask_percentage'] *= -1
+    fb_selected['mask percentage(%)'] -= 1
+    fb_selected['mask percentage(%)'] *= -1
 
     map_data = fb_all[fb_all['time_value']==pd.to_datetime(date_range[0])].copy()
     ids = [2,1,5,4,6,8,9,11,10,12,13,15,19,16,17,18,20,21,22,25,24,23,26,27,29,28,30,37,38,31,33,34,35,32,
@@ -75,7 +75,7 @@ def show_visualization():
     map_data['id'] = ids
 
     states = alt.topo_feature(data.us_10m.url, 'states')
-    variable_list = ['mask_percentage','sympton_percentage']
+    variable_list = ['unmasked_percentage','sympton_percentage']
 
     chart = alt.Chart(states).mark_geoshape().encode(
         alt.Color(alt.repeat('row'), type='quantitative')
