@@ -54,13 +54,17 @@ def show_visualization():
     else:
         fb_selected = fb_temp[(fb_temp['time_value']>=pd.to_datetime(date_range[0]))]
 
+    fb_selected.columns = ['state', 'time_value', 'mask percentage(%)', 'symptom percentage(%)']
+
+    fb_selected['state'] = fb_selected['state'].str.upper() 
+
     scatter_chart = alt.Chart(fb_selected).mark_circle().encode(
-        x=alt.X('mask_percentage', scale=alt.Scale(zero=False), axis=alt.Axis(title='percentage of wearing masks')), 
-        y=alt.Y('sympton_percentage', scale=alt.Scale(zero=False), axis=alt.Axis(title='percentage of having covid symptons'))
+        x=alt.X('mask percentage(%)', scale=alt.Scale(zero=False), axis=alt.Axis(title='percentage of wearing masks')), 
+        y=alt.Y('symptom percentage(%)', scale=alt.Scale(zero=False), axis=alt.Axis(title='percentage of having covid symptons')),
+        tooltip=['state', 'mask percentage(%)', 'symptom percentage(%)']
     )
-    scatter_chart + scatter_chart.transform_regression('mask_percentage', 'sympton_percentage').mark_line()
 
-
+    scatter_chart.interactive() + scatter_chart.transform_regression('mask percentage(%)', 'symptom percentage(%)').mark_line()
 
     map_data = fb_all[fb_all['time_value']==pd.to_datetime(date_range[0])].copy()
     ids = [2,1,5,4,6,8,9,11,10,12,13,15,19,16,17,18,20,21,22,25,24,23,26,27,29,28,30,37,38,31,33,34,35,32,
@@ -87,6 +91,8 @@ def show_visualization():
     )
 
     st.write(chart)
+
+    st.subheader("As demonstrated in previous diagrams, wearing masks can greatly mitigate the spread of the COVID-19 virus. As more and more states are reopening, it’s critical for us to understand the importance of masks, and be able to evaluate the safety level of everyday scenarios. Only then can we make wise decisions to protect ourselves and help prevent the spread of the virus.")
 
 
 def mask_detection(image, conf=0.5):
