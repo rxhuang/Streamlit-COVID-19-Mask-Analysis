@@ -39,6 +39,7 @@ def show_visualization():
     #first plot: correlation between wearing mask and having symptons
     st.title("Let`s see the correlation between wearing mask and having symptons.")
 
+    st.sidebar.title('Visualization Options:')
     state_choice = st.sidebar.multiselect(
         "Which state are you interested in?",
         states.tolist(), default=['AK','AL','AR','AZ','CA','CO']
@@ -158,7 +159,7 @@ def process_mask_image():
     st.set_option('deprecation.showfileUploaderEncoding', False)
 
     st.title("Face Mask Detection")
-    st.sidebar.text('Mask Detection Options:')
+    st.sidebar.title('Mask Detection Options:')
 
     select_image = None
     upload_image = None
@@ -171,7 +172,7 @@ def process_mask_image():
     else:
         # file upload
         # TODO: INTEGRATE FILE UPLOAD WITH IMAGE SELECTION
-        upload_image = st.sidebar.file_uploader("Upload Image", type=['jpg', 'png', 'jpeg'])
+        upload_image = st.sidebar.file_uploader("Or Upload An Image", type=['jpg', 'png', 'jpeg'])
 
 
     # select confidence level
