@@ -168,7 +168,8 @@ def process_mask_image():
 
     st.set_option('deprecation.showfileUploaderEncoding', False)
 
-    st.title("Face Mask Detection")
+    st.title("Real World Implications")
+    st.header("Face Mask Detection")
     st.sidebar.title('Mask Detection Options:')
 
     select_image = None
@@ -307,7 +308,7 @@ def calculate_distance(results, image):
 def calculate_score(results, result_img):
     show_eval = st.sidebar.checkbox('Show Safety Level Evaluation')
     if show_eval:
-        st.title("Safety Level Evaluation")
+        st.header("Safety Level Evaluation")
         # st.write(results)
         calculate_distance(results, result_img)
 
