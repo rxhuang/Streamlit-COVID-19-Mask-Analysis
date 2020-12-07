@@ -37,8 +37,9 @@ def show_visualization():
     states=fb_all.geo_value.str.upper().unique()
 
     #first plot: correlation between wearing mask and having symptons
-    st.title("Let`s see the correlation between wearing mask and having symptons.")
-
+    st.title("Effectiveness of Face Masks")
+    st.subheader("Correlation between wearing masks and having symptons.")
+    
     st.sidebar.title('Visualization Options:')
     state_choice = st.sidebar.multiselect(
         "Which state are you interested in?",
