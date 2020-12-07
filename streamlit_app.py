@@ -268,10 +268,10 @@ def calculate_distance(results, image):
                 scale = 1
                 if results[i]["prob"] < 0 and results[j]["prob"] < 0:
                     color = (0, 0, 255)
-                    scale = 3
+                    scale = 6
                 elif results[i]["prob"] < 0 or results[j]["prob"] < 0:
                     color = (0, 165, 255)
-                    scale = 2
+                    scale = 3
                 else:
                     color = (0, 255, 0)
                     scale = 1
@@ -294,11 +294,19 @@ def calculate_distance(results, image):
         average_distance = np.average(distance_drawn)
         st.write("The average distance between people is {:.1f} cm, roughly {:.1f} ft".format(average_distance, average_distance/30.48))
         if average_density > 12 / 182.88:
+            st.write("The safety score is {:.4f}, chance of contracting COVID: **very high**".format(average_density*100))
+        elif average_density > 9 / 182.88:
             st.write("The safety score is {:.4f}, chance of contracting COVID: **high**".format(average_density*100))
-        elif average_density > 8 / 182.88:
-            st.write("The safety score is {:.4f}, chance of contracting COVID: **average**".format(average_density*100))
-        else:
+        elif average_density > 6 / 182.88:
+            st.write("The safety score is {:.4f}, chance of contracting COVID: **medium**".format(average_density*100))
+        elif average_density > 4 / 182.88:
             st.write("The safety score is {:.4f}, chance of contracting COVID: **low**".format(average_density*100))
+        else:
+            st.write("The safety score is {:.4f}, chance of contracting COVID: **very low**".format(average_density*100))
+        st.write("The safety score is calculated as a density measure of mask per centimeter")
+        st.write("- A density score above 6.56 indicates a high possibility of majority people not wearing mask in the scence")
+        st.write("- A density score between 6.56 and 2.19 indicates a high possibility that more than 50% people in the scene wears a mask or majority obeys social distancing rules")
+        st.write("- A density score of below 2.19 indicates that all the people are wearing mask and obeying social distancing rules")
     elif len(results) == 1:
         st.write("Only 1 person in the image, chance of contracting COVID: **low**")
     else:
@@ -309,7 +317,6 @@ def calculate_score(results, result_img):
     show_eval = st.sidebar.checkbox('Show Safety Level Evaluation')
     if show_eval:
         st.header("Safety Level Evaluation")
-        # st.write(results)
         calculate_distance(results, result_img)
 
 if __name__ == '__main__':
