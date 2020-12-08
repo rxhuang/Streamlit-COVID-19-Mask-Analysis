@@ -42,7 +42,7 @@ def show_visualization():
            
     st.header("Part 1: Effectiveness of Face Masks")
     st.write("The dataset we are using comes from the survey conducted by Delphi Group and Facebook. [Link](https://delphi.cmu.edu/covidcast/?sensor=doctor-visits-smoothed_adj_cli&level=county&date=20201202&signalType=value&encoding=color&mode=export®ion=42003)")
-    st.subheader("Correlation between wearing masks and having symptons.")
+    st.subheader("Correlation between wearing masks and having symptoms.")
     
     st.sidebar.title('Visualization Options:')
     state_choice = st.sidebar.multiselect(
@@ -67,16 +67,19 @@ def show_visualization():
 
     fb_selected['state'] = fb_selected['state'].str.upper() 
 
+    fb_selected['mask percentage(%)']=round(fb_selected['mask percentage(%)'],2)
+    fb_selected['symptom percentage(%)']=round(fb_selected['symptom percentage(%)'],2)
+
     scatter_chart = alt.Chart(fb_selected).mark_circle().encode(
         x=alt.X('mask percentage(%)', scale=alt.Scale(zero=False), axis=alt.Axis(title='percentage of wearing masks')), 
-        y=alt.Y('symptom percentage(%)', scale=alt.Scale(zero=False), axis=alt.Axis(title='percentage of having covid symptons')),
+        y=alt.Y('symptom percentage(%)', scale=alt.Scale(zero=False), axis=alt.Axis(title='percentage of having covid symptoms')),
         tooltip=['state', 'mask percentage(%)', 'symptom percentage(%)']
     )
 
     scatter_chart.interactive() + scatter_chart.transform_regression('mask percentage(%)', 'symptom percentage(%)').mark_line()
     
     
-    st.subheader("Geographic representation of wearing masks and having symptons.")
+    st.subheader("Geographic representation of wearing masks and having symptoms.")
     map_data = fb_all[fb_all['time_value']==pd.to_datetime(date_range[0])].copy()
     ids = [2,1,5,4,6,8,9,11,10,12,13,15,19,16,17,18,20,21,22,25,24,23,26,27,29,28,30,37,38,31,33,34,35,32,
            36,39,40,41,42,44,45,46,47,48,49,51,50,53,55,54,56] 
@@ -188,11 +191,11 @@ def process_mask_image():
     sample_images = sorted([f for f in os.listdir(IMAGE_PATH) if f.lower().endswith('jpg') or f.lower().endswith('png') or f.lower().endswith('jpeg')])
     try_sample = st.sidebar.checkbox('Try Sample Images')
     if try_sample:
-        select_image = st.sidebar.selectbox("Select A Sample Images", sample_images)
+        select_image = st.sidebar.selectbox("Select a Sample Images", sample_images)
     else:
         # file upload
         # TODO: INTEGRATE FILE UPLOAD WITH IMAGE SELECTION
-        upload_image = st.sidebar.file_uploader("Or Upload An Image", type=['jpg', 'png', 'jpeg'])
+        upload_image = st.sidebar.file_uploader("Or Upload an Image", type=['jpg', 'png', 'jpeg'])
 
 
     # select confidence level
@@ -352,11 +355,7 @@ def put_mask_on(results, orig_image, avg_face_width):
             results[i]["prob"] *= -1
             count += 1
     st.image(orig_image, channels="BGR", caption=str(count) + " more persons start to wear masks", use_column_width=True)
-    if count != len(results):
-        percentage_increase = count/(len(results)-count)*100
-    else:
-        percentage_increase = 100
-    st.write("This is a {:.2f} percent increase for people wearing masks".format(percentage_increase))
+    st.write("This is a {:.2f} percent increase for people wearing masks".format(count/(len(results)-count)*100))
     st.subheader("Let's see how this change the situation")
     calculate_distance(results, orig_image, avg_face_width)
 
