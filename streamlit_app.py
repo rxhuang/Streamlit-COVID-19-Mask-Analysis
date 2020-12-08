@@ -352,7 +352,11 @@ def put_mask_on(results, orig_image, avg_face_width):
             results[i]["prob"] *= -1
             count += 1
     st.image(orig_image, channels="BGR", caption=str(count) + " more persons start to wear masks", use_column_width=True)
-    st.write("This is a {:.2f} percent increase for people wearing masks".format(count/(len(results)-count)*100))
+    if count != len(results):
+        percentage_increase = count/(len(results)-count)*100
+    else:
+        percentage_increase = 100
+    st.write("This is a {:.2f} percent increase for people wearing masks".format(percentage_increase))
     st.subheader("Let's see how this change the situation")
     calculate_distance(results, orig_image, avg_face_width)
 
