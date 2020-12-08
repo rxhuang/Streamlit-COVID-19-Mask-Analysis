@@ -38,7 +38,7 @@ def show_visualization():
 
     #first plot: correlation between wearing mask and having symptons
     st.title("Face Mask Analysis During Covid-19 Pandemic")
-    st.write("In the face of the COVID-19 pandemic, it has been shown that wearing masks is an effective way to prevent the spread of the disease. CDC calls people to wear masks, and masks are required in public transportation and restaurants.Our app aims to demonstrate the effectiveness of wearing masks, and show how wearing masks can increase safety level in real world scenarios.")
+    st.write("In the face of the COVID-19 pandemic, it has been shown that wearing masks is an effective way to prevent the spread of the disease. CDC calls people to wear masks, and masks are required in public transportation and restaurants. Our app aims to demonstrate the effectiveness of wearing masks, and show how wearing masks can increase safety level in real world scenarios.")
            
     st.header("Part 1: Effectiveness of Face Masks")
     st.write("The dataset we are using comes from the survey conducted by Delphi Group and Facebook. [Link](https://delphi.cmu.edu/covidcast/?sensor=doctor-visits-smoothed_adj_cli&level=county&date=20201202&signalType=value&encoding=color&mode=export®ion=42003)")
