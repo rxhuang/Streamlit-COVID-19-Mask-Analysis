@@ -8,6 +8,12 @@
   * Ziming He zimingh@andrew.cmu.edu
 * **Track**: Model (one of Narrative, Model, or Interactive Visualization/Application)
 
+## Build Instructions
+```bash
+pip install -r requirements.txt
+streamlit run streamlit_app.py
+```
+
 ## Work distribution
 **TODO:**
 how the work was split among the group members and a commentary on the project process.
