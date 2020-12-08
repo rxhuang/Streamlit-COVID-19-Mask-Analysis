@@ -4,7 +4,7 @@
 * **Team members**:
   * Contact person: Tianyang Zhan tzhan@andrew.cmu.edu
   * Ruoxin Huang ruoxinh@andrew.cmu.edu
-  * Xinyi Xu xinyix2@andrew.cmu.edu
+  * Amanda Xu xinyix2@andrew.cmu.edu
   * Ziming He zimingh@andrew.cmu.edu
 * **Track**: Model (one of Narrative, Model, or Interactive Visualization/Application)
 
