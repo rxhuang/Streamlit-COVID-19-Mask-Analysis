@@ -204,6 +204,10 @@ def process_mask_image():
     else:
         st.write("Select or Upload an Image to Begin")
 
+    if opencv_image is not None:
+        orig_image = opencv_image.copy()
+    else:
+        orig_image = None
     results = []
     result_img = None
     if show_mask_result and opencv_image is not None:
@@ -215,11 +219,10 @@ def process_mask_image():
             st.write("**%d** faces with threshold **%.2f**; **%d** faces with threshold **%.2f**"%(face_counts[1], 0.25, face_counts[2], 0.75))
     elif opencv_image is not None:
         result_img = st.image(opencv_image, channels="BGR", caption='selected image', use_column_width=True)
-    return results, result_img
+    return results, result_img, orig_image
 
-def calculate_distance(results, image):
+def calculate_distance(results, image, avg_face_width=20):
     # reference object
-    avg_face_width = 20
 
     if len(results) > 1:
         min_dist = {}
@@ -316,13 +319,39 @@ def calculate_distance(results, image):
         st.write("Please run the face detector first")
 
 # TODO: IMPLEMENT SCORING MODEL
-def calculate_score(results, result_img):
+def calculate_score(results, result_img, orig_image):
+    scale = st.sidebar.slider('Distance Scale', 12, 28, 20)
     show_eval = st.sidebar.checkbox('Show Safety Level Evaluation')
+
     if show_eval:
-        st.subheader("Safety Level Evaluation")
-        calculate_distance(results, result_img)
+        st.header("Safety Level Evaluation")
+        calculate_distance(results, result_img, avg_face_width=scale)
+        show_after_mask = st.sidebar.checkbox('Let More People Wear Mask')
+        if show_after_mask and orig_image is not None:
+            st.header("If more people start to wear masks")
+            put_mask_on(results, orig_image, avg_face_width=scale)
+
+def put_mask_on(results, orig_image, avg_face_width):
+    mask_img = cv2.imread("Surgical-Mask.png", cv2.IMREAD_UNCHANGED)
+    count = 0
+    for i in range(len(results)):
+        if results[i]["prob"] < 0:
+            cY = (results[i]["cord"][1] + results[i]["cord"][3]) // 2
+
+            resized = cv2.resize(mask_img, (results[i]["cord"][2] - results[i]["cord"][0], results[i]["cord"][3] - cY))
+            for x in range(cY, results[i]["cord"][3]):
+                for y in range(results[i]["cord"][0], results[i]["cord"][2]):
+                    if resized[x-cY, y-results[i]["cord"][0], 3] != 0:
+                        orig_image[x, y] = resized[x-cY, y-results[i]["cord"][0], :3]
+            results[i]["prob"] *= -1
+            count += 1
+    st.image(orig_image, channels="BGR", caption=str(count) + " more persons start to wear masks", use_column_width=True)
+    st.write("This is a {:.2f} percent increase for people wearing masks".format(count/(len(results)-count)*100))
+    st.subheader("Let's see how this change the situation")
+    calculate_distance(results, orig_image, avg_face_width)
 
 if __name__ == '__main__':
     show_visualization()
-    results, result_img = process_mask_image()
-    calculate_score(results, result_img)
+    results, result_img, orig_image = process_mask_image()
+    calculate_score(results, result_img, orig_image)
+   
