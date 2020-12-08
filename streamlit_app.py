@@ -38,7 +38,7 @@ def show_visualization():
 
     #first plot: correlation between wearing mask and having symptons
     st.title("Face Mask Analysis App")
-    st.subtitle("Effectiveness of Face Masks")
+    st.title("Effectiveness of Face Masks")
     st.subheader("Correlation between wearing masks and having symptons.")
     
     st.sidebar.title('Visualization Options:')
