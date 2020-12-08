@@ -100,7 +100,7 @@ def show_visualization():
 
     st.write(chart)
 
-    st.write("As demonstrated in previous diagrams, wearing masks can greatly mitigate the spread of the COVID-19 virus. As more and more states are reopening, it’s critical for us to understand the importance of masks, and be able to evaluate the safety level of everyday scenarios. Only then can we make wise decisions to protect ourselves and help prevent the spread of the virus.")
+    st.write("As demonstrated in previous diagrams, wearing masks can mitigate the spread of the COVID-19 virus. As more and more states are reopening, it’s critical for us to understand the importance of masks, and be able to evaluate the safety level of everyday scenarios. Only then can we make wise decisions to protect ourselves and help prevent the spread of the virus.")
 
 
 def mask_detection(image, conf=0.5):
@@ -173,6 +173,7 @@ def process_mask_image():
     st.set_option('deprecation.showfileUploaderEncoding', False)
 
     st.header("Part 2: Real World Implications")
+    st.write("Given an image representing a real world scenario, we are able to evaluate the COVID-19 safety level based on mask-wearing rates and the distances between people.")
     st.subheader("Face Mask Detection")
     st.sidebar.title('Mask Detection Options:')
 
@@ -183,7 +184,7 @@ def process_mask_image():
     sample_images = sorted([f for f in os.listdir(IMAGE_PATH) if f.lower().endswith('jpg') or f.lower().endswith('png') or f.lower().endswith('jpeg')])
     try_sample = st.sidebar.checkbox('Try Sample Images')
     if try_sample:
-        select_image = st.sidebar.selectbox("Or Try With Sample Images", sample_images)
+        select_image = st.sidebar.selectbox("Select A Sample Images", sample_images)
     else:
         # file upload
         # TODO: INTEGRATE FILE UPLOAD WITH IMAGE SELECTION
@@ -203,7 +204,7 @@ def process_mask_image():
         # use selected sample
         opencv_image = cv2.imread(os.path.join(IMAGE_PATH, select_image))
     else:
-        st.write("Select or Upload an Image to Begin")
+        st.write("Select or upload an image to begin")
 
     if opencv_image is not None:
         orig_image = opencv_image.copy()
