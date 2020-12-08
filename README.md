@@ -21,7 +21,7 @@ how the work was split among the group members and a commentary on the project p
 ## Deliverables
 
 ### Project Proposal
-https://docs.google.com/document/d/1TqYg-uk4ryZCuW5axk1SdqnfntXukpZItl3BxQD2i6s/edit?usp=sharing
+* Proposal: [link](https://github.com/CMU-IDS-2020/fp-null-pointer-1/blob/main/Proposal.md)
 
 ### Design Review
 * Design Review Notes: [note](https://github.com/CMU-IDS-2020/fp-null-pointer-1/blob/main/Design_Review.md)
