@@ -15,8 +15,9 @@ streamlit run streamlit_app.py
 ```
 
 ## Work distribution
-**TODO:**
-how the work was split among the group members and a commentary on the project process.
+The work was split equally among the team members. Ruoxin and Amanda worked on the visualization part of the project. The responsibilities include: researching relevant research work and news articles related to COVID-19 and face masks, collecting and preprocessing datasets for visualizations, designing and implementing interactive plots to answer our research questions, and optimizing the UI and interaction of the application. Tianyang and Ziming worked on the model part of the project. The work includes researching face/mask detection models and frameworks, designing and implementing data pipelines for the system, integrating multiple pre-trained deep learning models, and developing a statistical model for safety level measurements.
+
+In general, the development process of this project was smooth. All team members collaborated with each other effectively. We held weekly meetings on Zoom where the team updated, presented and reviewed the recent progress and discussed the ideas on different parts of the project. During the development of this project, we also researched and reviewed various journalistic and academic sources on the topic of COVID-19 and face mask policies. We are convinced that raising awareness of mask-wearing is critical for slowing down and preventing the spread of COVID. Therefore, we believe our work is meaningful, and can have real world implications. In addition, we believe our experience in this course has helped us improve our abilities to develop an interactive application that can reveal and communicate information in data in a clear, effective, and unbiased manner.
 
 ## Deliverables
 
