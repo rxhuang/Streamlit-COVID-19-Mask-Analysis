@@ -325,11 +325,11 @@ def calculate_score(results, result_img, orig_image):
     show_eval = st.sidebar.checkbox('Show Safety Level Evaluation')
 
     if show_eval:
-        st.header("Safety Level Evaluation")
+        st.subheader("Safety Level Evaluation")
         calculate_distance(results, result_img, avg_face_width=scale)
         show_after_mask = st.sidebar.checkbox('Let More People Wear Mask')
         if show_after_mask and orig_image is not None:
-            st.header("If more people start to wear masks")
+            st.subheader("If more people start to wear masks")
             put_mask_on(results, orig_image, avg_face_width=scale)
 
 def put_mask_on(results, orig_image, avg_face_width):
