@@ -37,8 +37,8 @@ def show_visualization():
     states=fb_all.geo_value.str.upper().unique()
 
     #first plot: correlation between wearing mask and having symptons
-    st.title("Face Mask Analysis App")
-    st.title("Effectiveness of Face Masks")
+    st.title("Face Mask Analysis During Covid-19 Pandemic")
+    st.header("Effectiveness of Face Masks")
     st.subheader("Correlation between wearing masks and having symptons.")
     
     st.sidebar.title('Visualization Options:')
@@ -97,7 +97,7 @@ def show_visualization():
 
     st.write(chart)
 
-    st.subheader("As demonstrated in previous diagrams, wearing masks can greatly mitigate the spread of the COVID-19 virus. As more and more states are reopening, it’s critical for us to understand the importance of masks, and be able to evaluate the safety level of everyday scenarios. Only then can we make wise decisions to protect ourselves and help prevent the spread of the virus.")
+    st.write("As demonstrated in previous diagrams, wearing masks can greatly mitigate the spread of the COVID-19 virus. As more and more states are reopening, it’s critical for us to understand the importance of masks, and be able to evaluate the safety level of everyday scenarios. Only then can we make wise decisions to protect ourselves and help prevent the spread of the virus.")
 
 
 def mask_detection(image, conf=0.5):
@@ -169,8 +169,8 @@ def process_mask_image():
 
     st.set_option('deprecation.showfileUploaderEncoding', False)
 
-    st.title("Real World Implications")
-    st.header("Face Mask Detection")
+    st.header("Real World Implications")
+    st.subheader("Face Mask Detection")
     st.sidebar.title('Mask Detection Options:')
 
     select_image = None
@@ -317,7 +317,7 @@ def calculate_distance(results, image):
 def calculate_score(results, result_img):
     show_eval = st.sidebar.checkbox('Show Safety Level Evaluation')
     if show_eval:
-        st.header("Safety Level Evaluation")
+        st.subheader("Safety Level Evaluation")
         calculate_distance(results, result_img)
 
 if __name__ == '__main__':
