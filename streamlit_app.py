@@ -46,7 +46,7 @@ def show_visualization():
     
     st.sidebar.title('Visualization Options:')
     state_choice = st.sidebar.multiselect(
-        "Which state are you interested in?",
+        "Which states are you interested in? Please choose more than one state",
         states.tolist(), default=['AK','AL','AR','AZ','CA','CO']
     )
 
@@ -59,7 +59,11 @@ def show_visualization():
     else:
         fb_selected = fb_temp[(fb_temp['time_value']>=pd.to_datetime(date_range[0]))]
 
+
+
     fb_selected.columns = ['state', 'time_value', 'mask percentage(%)', 'symptom percentage(%)']
+
+    fb_selected=fb_selected.groupby(['state']).mean().reset_index()
 
     fb_selected['state'] = fb_selected['state'].str.upper() 
 
