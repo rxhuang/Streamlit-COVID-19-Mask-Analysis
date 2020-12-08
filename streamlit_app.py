@@ -47,7 +47,7 @@ def show_visualization():
     st.sidebar.title('Visualization Options:')
     state_choice = st.sidebar.multiselect(
         "Which states are you interested in? Please choose more than one state",
-        states.tolist(), default=['AK','AL','AR','AZ','CA','CO']
+        states.tolist(), default=states.tolist()
     )
 
     date_range = st.sidebar.date_input("Which range of date are you interested in? Choose between %s and %s"% (min(fb_all['time_value']).strftime('%Y/%m/%d'),  max(fb_all['time_value']).strftime('%Y/%m/%d')), [min(fb_all['time_value']), max(fb_all['time_value'])])
