@@ -30,7 +30,7 @@ In general, the development process of this project was smooth. All team members
 
 ### Final Report and Video
 * Final Report: [report](https://github.com/CMU-IDS-2020/fp-null-pointer-1/blob/main/Final_Report.md)
-* Final Demo Video:
+* Final Demo Video: [video](https://drive.google.com/file/d/14BmtF6ckPxxoV3ReM3NApDO6dHwX3vo8/view?usp=sharing)
 
 ### Final deliverables
 
