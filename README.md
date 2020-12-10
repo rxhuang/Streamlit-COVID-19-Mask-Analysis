@@ -14,6 +14,11 @@ pip install -r requirements.txt
 streamlit run streamlit_app.py
 ```
 
+If you encounter the following error, try install the **ibgtk2.0-dev** package to your system as described [here](https://stackoverflow.com/questions/53359649/from-cv2-import-importerror-libgthread-2-0-so-0-cannot-open-shared-object-f?noredirect=1&lq=1).
+```bash
+ImportError: libgthread-2.0.so.0: cannot open shared object file: No such file or directory
+```
+
 ## Work distribution
 The work was split equally among the team members. Ruoxin and Amanda worked on the visualization part of the project. The responsibilities include: researching relevant research work and news articles related to COVID-19 and face masks, collecting and preprocessing datasets for visualizations, designing and implementing interactive plots to answer our research questions, and optimizing the UI and interaction of the application. Tianyang and Ziming worked on the model part of the project. The work includes researching face/mask detection models and frameworks, designing and implementing data pipelines for the system, integrating multiple pre-trained deep learning models, and developing a statistical model for safety level measurements.
 
