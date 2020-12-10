@@ -335,10 +335,11 @@ def calculate_score(results, result_img, orig_image):
     if show_eval:
         st.subheader("Safety Level Evaluation")
         calculate_distance(results, result_img, avg_face_width=scale)
-        show_after_mask = st.sidebar.checkbox('Let More People Wear Mask')
-        if show_after_mask and orig_image is not None:
-            st.subheader("If more people start to wear masks")
-            put_mask_on(results, orig_image, avg_face_width=scale)
+        if len(results) > 0:
+            show_after_mask = st.sidebar.checkbox('Let More People Wear Mask')
+            if show_after_mask and orig_image is not None:
+                st.subheader("If more people start to wear masks")
+                put_mask_on(results, orig_image, avg_face_width=scale)
 
 def put_mask_on(results, orig_image, avg_face_width):
     mask_img = cv2.imread("Surgical-Mask.png", cv2.IMREAD_UNCHANGED)
@@ -354,8 +355,12 @@ def put_mask_on(results, orig_image, avg_face_width):
                         orig_image[x, y] = resized[x-cY, y-results[i]["cord"][0], :3]
             results[i]["prob"] *= -1
             count += 1
+    if count != len(results):
+        percentage_increase = count/(len(results)-count)*100
+    else:
+        percentage_increase = 100
+    st.write("This is a {:.2f} percent increase for people wearing masks".format(percentage_increase))
     st.image(orig_image, channels="BGR", caption=str(count) + " more persons start to wear masks", use_column_width=True)
-    st.write("This is a {:.2f} percent increase for people wearing masks".format(count/(len(results)-count)*100))
     st.subheader("Let's see how this change the situation")
     calculate_distance(results, orig_image, avg_face_width)
 
