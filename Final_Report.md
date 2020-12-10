@@ -15,7 +15,7 @@ In the face of the COVID-19 pandemic, it has been shown that wearing masks is an
 
 
 ## Related Work
-###Mask Effectiveness
+### Mask Effectiveness
 As wearing masks has become a suggestive preventive method of COVID-19, researchers have analyzed the effectiveness of mask-wearing. Since transmission might happen before symptoms appear, wearing masks by well people is beneficial to lowering the risk of infection [(MacIntyre & Chughtai 2020)](https://doi.org/10.1016/j.ijnurstu.2020.103629). Analysis across different continents has also shown the universal effectiveness of mask-wearing [(Chu et.al, 2020)](https://www.researchgate.net/publication/341812100_Physical_distancing_face_masks_and_eye_protection_to_prevent_person-to-person_transmission_of_SARS-CoV-2_and_COVID-19_a_systematic_review_and_meta-analysis). Inside the US, the Delphi Group has conducted an analysis on the relationship between masks wearing and infected by Covid, and they found a strong negative relationship [(Reinhart, 2020)](https://delphi.cmu.edu/blog/2020/10/12/new-and-improved-covid-symptom-survey-tracks-testing-and-mask-wearing/).
 In the visualization section, we use data collected from surveys conducted by The Delphi Research Group at Carnegie Mellon University and Facebook. These datasets include the percentage of mask-wearing and the percentage of having COVID symptoms for each state [(Delphi Research Group, 2020)](https://delphi.cmu.edu/covidcast/?sensor=doctor-visits-smoothed_adj_cli&level=county&date=20201202&signalType=value&encoding=color&mode=export&region=42003).
 
